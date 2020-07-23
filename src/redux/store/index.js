@@ -1,4 +1,3 @@
-// const storage = require('redux-persist/lib/storage').default
 import localforage from 'localforage';
 import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -28,3 +27,4 @@ initStore = createStore(
 
 initStore.__PERSISTOR = persistStore(initStore);
 export const store = initStore;
+
