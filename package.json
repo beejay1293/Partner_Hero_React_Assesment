@@ -1,0 +1,25 @@
+{
+  "name": "partner_hero_react_assesment",
+  "version": "1.0.0",
+  "description": "g a single page application which consumes NASA's Astronomy",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/beejay1293/Partner_Hero_React_Assesment.git"
+  },
+  "author": "mobolaji",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/beejay1293/Partner_Hero_React_Assesment/issues"
+  },
+  "homepage": "https://github.com/beejay1293/Partner_Hero_React_Assesment#readme",
+  "dependencies": {
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-persist": "^6.0.0",
+    "tailwindcss": "^1.5.2"
+  }
+}
