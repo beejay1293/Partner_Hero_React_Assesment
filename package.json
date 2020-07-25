@@ -2,7 +2,7 @@
   "name": "partner_hero_react_assesment",
   "version": "1.0.0",
   "description": "a single page application which consumes NASA's Astronomy",
-  "main": "src/index.js",
+ 
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -18,7 +18,6 @@
   "bugs": {
     "url": "https://github.com/beejay1293/Partner_Hero_React_Assesment/issues"
   },
-  "homepage": "https://github.com/beejay1293/Partner_Hero_React_Assesment#readme",
   "devDependencies": {
     "react-scripts": "2.1.8"
   },

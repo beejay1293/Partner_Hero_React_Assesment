@@ -1,0 +1,17 @@
+{
+    "name": "partnerhero",
+    "version": 2,
+    "builds": [
+      {
+        "src": "package.json",
+        "use": "@now/next"
+      }
+    ],
+    "build": {
+      "env": {
+        "ENV": "production",
+        "REACT_APP_NASA_API_KEY":"Wb23uS1zoNTuOASayVTpaSl84QOe4i2zwgSUF5fw"
+      }
+    }
+  }
+  
