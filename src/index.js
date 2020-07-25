@@ -15,7 +15,7 @@ ReactDOM.render(
       loading={<div>{console.log('loading...')}</div>}
     >
       <App />
-      <ToastContainer autoClose={1000} />
+      <ToastContainer autoClose={3000} />
     </PersistGate>
   </Provider>,
   document.getElementById('root')

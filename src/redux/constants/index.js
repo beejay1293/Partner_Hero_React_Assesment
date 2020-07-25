@@ -6,5 +6,7 @@ export const SET_CURRENT_DAY_IMAGE = 'SET_CURRENT_DAY_IMAGE'
 export const GET_IMAGE_FAILED = 'GET_IMAGE_FAILED'
 export const SET_NEXT_IMAGE = 'SET_NEXT_IMAGE'
 export const SET_PREV_IMAGE = 'SET_PREV_IMAGE'
+export const SET_USER_ID = 'SET_USER_ID'
+
 
 

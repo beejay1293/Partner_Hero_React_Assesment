@@ -1,5 +1,8 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import 'firebase/auth';
+import 'firebase/analytics';
+import 'firebase/remote-config';
 
 
 import config from './config';
