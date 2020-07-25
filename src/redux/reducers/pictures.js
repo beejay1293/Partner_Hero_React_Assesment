@@ -1,4 +1,4 @@
-import { SET_NEXT_IMAGE, SET_PREV_IMAGE, LOADING, SET_FAVORITE_IMAGE_INFO, REMOVE_FAVORITE_IMAGE_INFO, SET_CURRENT_DAY_IMAGE, GET_IMAGE_FAILED, SET_DATE  } from '../constants'
+import { SET_USER_ID, SET_NEXT_IMAGE, SET_PREV_IMAGE, LOADING, SET_FAVORITE_IMAGE_INFO, REMOVE_FAVORITE_IMAGE_INFO, SET_CURRENT_DAY_IMAGE, GET_IMAGE_FAILED, SET_DATE  } from '../constants'
 
 const initialState = {
     favoriteImages : [],
@@ -7,7 +7,8 @@ const initialState = {
     selectedDate : new Date().toLocaleDateString('fr-CA'),
     error: {},
     prevImage: null,
-    nextImage: null
+    nextImage: null,
+    userId: null
 }
 
 export default (state= initialState, action) => {
@@ -18,7 +19,11 @@ export default (state= initialState, action) => {
                 favoriteImages: [...state.favoriteImages, action.payload],
                 isLoading: false,
             }
-
+        case SET_USER_ID:
+            return {
+                ...state,
+                userId: action.payload
+            }
         case SET_PREV_IMAGE: 
            return {
                ...state,

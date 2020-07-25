@@ -1,27 +1,37 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import DatePicker from "react-datepicker"; 
-import "react-datepicker/dist/react-datepicker.css";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from 'react-responsive-carousel';
-import { set_favorite_info, remove_favorite_info, fetchImage, fetchImagePreviews } from '../redux/actions'
 import { toast } from "react-toastify";
-import '../assets/styles/index.css'
+import DatePicker from "react-datepicker"; 
+import { db } from '../firebase'
+import firebase from 'firebase'
+import { Carousel } from 'react-responsive-carousel';
+import { v4 as uuidv4 } from 'uuid';
+
+import { set_favorite_info, remove_favorite_info, fetchImage, fetchImagePreviews, set_user_id } from '../redux/actions'
 import unlikeIcon from '../assets/images/icons8-love-48.png'
 import likeIcon from '../assets/images/icons8-love-48 (1).png'
 import Loader from '../components/spinner'
 import ChevronRight from '../components/ChevronRight'
 import ChevronLeft from '../components/ChevronLeft'
 
+import "react-datepicker/dist/react-datepicker.css";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import '../assets/styles/index.css'
+
+
 
 
 function DisplayImage () {
 
-	  const { favoriteImages, pictureOfTheDay, isLoading, selectedDate, prevImage, nextImage } = useSelector(state => state.pictures)
+	  const { favoriteImages, pictureOfTheDay, isLoading, selectedDate, prevImage, nextImage, userId } = useSelector(state => state.pictures)
 
     const dispatch = useDispatch()
 
     useEffect(() => {
+      if(!userId) {
+        const userId = uuidv4();
+        dispatch(set_user_id(userId))
+      }
       dispatch(fetchImage(selectedDate))
       dispatch(fetchImagePreviews(selectedDate))
       toast.success("welcome to NASA's astronomy picture of the day")
@@ -33,10 +43,22 @@ function DisplayImage () {
         const { title } = fav
         const isFavorite = !!favoriteImages.find(e => e.title === title)
         if(isFavorite) {
+          handleFavoriteImages(userId, fav, false)
           return dispatch(remove_favorite_info(fav))
         }
         dispatch(set_favorite_info(fav))
+        handleFavoriteImages(userId, fav)
         toast.success('Image saved')
+    }
+    
+
+    const handleFavoriteImages = (uid, fav, like=true) => {
+      const op = like ? firebase.firestore.FieldValue.arrayUnion : firebase.firestore.FieldValue.arrayRemove
+            db.collection('favoriteImages')
+              .doc(uid)
+              .update({ images: op(fav) }).then(doc => {
+                console.log('success', doc);
+              }).catch(e => console.log('error', e.response))
     }
 
     const getImage = async (date) => {
@@ -85,8 +107,8 @@ function DisplayImage () {
       <div className="container">
        {isLoading ? (<div className="loader_container"><Loader /></div>) :
           <div>
-               <div className="image_container">
-                <h1>{ pictureOfTheDay.title}</h1>
+              <div className="image_container">
+                  <h1>{ pictureOfTheDay.title}</h1>
                   <Carousel renderThumbs={() => customRenderThumb([prevImage,  nextImage])} showIndicators={false} showStatus={false} renderArrowPrev={() => renderArrowPrev(clickHandler, true, 'prev')} renderArrowNext={() => renderArrowNext(clickHandler, true, 'next')} >
                     <img src={ pictureOfTheDay.url} className="image" alt={pictureOfTheDay.title}/>
                   </Carousel >
@@ -96,10 +118,11 @@ function DisplayImage () {
                      <img src={renderLikeIcon()} alt="like_image"/>
                  </div>
               <div className="date">
-               <DatePicker
-                  selected={new Date(selectedDate)}
-                  onChange={(value) => getImage(value)}
-               />
+                 <DatePicker
+                    selected={new Date(selectedDate)}
+                    onChange={(value) => getImage(value)}
+                    className="date_picker"
+                 />
                </div>
             </div>
             <div className="image_description">

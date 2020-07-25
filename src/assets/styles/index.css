@@ -74,3 +74,9 @@
    margin-bottom: 20px;
    padding: 20px
 }
+
+.date_picker {
+  border-radius: 10px;
+  padding: 4px;
+ text-align: center;
+}

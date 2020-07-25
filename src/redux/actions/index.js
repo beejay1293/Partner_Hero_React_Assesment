@@ -1,4 +1,4 @@
-import { SET_FAVORITE_IMAGE_INFO, SET_NEXT_IMAGE, SET_PREV_IMAGE, SET_DATE, LOADING, REMOVE_FAVORITE_IMAGE_INFO, SET_CURRENT_DAY_IMAGE, GET_IMAGE_FAILED }  from '../constants';
+import { SET_USER_ID, SET_FAVORITE_IMAGE_INFO, SET_NEXT_IMAGE, SET_PREV_IMAGE, SET_DATE, LOADING, REMOVE_FAVORITE_IMAGE_INFO, SET_CURRENT_DAY_IMAGE, GET_IMAGE_FAILED }  from '../constants';
 import { getImage } from '../../utils/getImage'
 import { toast } from 'react-toastify';
 
@@ -39,6 +39,11 @@ export const set_next_image = (data) => ({
 export const set_prev_image = (data) => ({
   type: SET_PREV_IMAGE,
   payload: data.url ? data.url : null
+})
+
+export const set_user_id = (uid) => ({
+  type: SET_USER_ID,
+  payload: uid
 })
 
 export const fetchImage = (date) => async dispatch => {
