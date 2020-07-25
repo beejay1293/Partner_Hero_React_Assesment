@@ -2,7 +2,8 @@
    width: 80%;
    margin: auto;
    padding-top: 1%;
-   text-align: center
+   text-align: center;
+   font-family: 'Roboto' , Arial, Helvetica, sans-serif;
 }
 
 .image {
@@ -60,9 +61,16 @@
     margin: auto
     
 }
+.date {
+  padding-top: 15px;
+}
 
-.image_discription {
-   margin-top: 20px;
+.carousel .thumb.selected, .carousel .thumb:hover {
+  border: 0px solid #333;
+}
+
+.image_description {
+   margin-top: 30px;
    margin-bottom: 20px;
-   margin: auto;
+   padding: 20px
 }

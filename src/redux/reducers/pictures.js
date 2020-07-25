@@ -22,12 +22,14 @@ export default (state= initialState, action) => {
         case SET_PREV_IMAGE: 
            return {
                ...state,
-               prevImage: action.payload
+               prevImage: action.payload,
+               isLoading: false
            }
         case SET_NEXT_IMAGE:
            return {
                ...state,
-               nextImage: action.payload
+               nextImage: action.payload,
+               isLoading: false
            }
         case REMOVE_FAVORITE_IMAGE_INFO: 
             return {

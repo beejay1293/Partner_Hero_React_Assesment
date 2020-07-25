@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
-import { set_favorite_info, remove_favorite_info, fetchImage } from '../redux/actions'
+import { set_favorite_info, remove_favorite_info, fetchImage, fetchImagePreviews } from '../redux/actions'
 import { toast } from "react-toastify";
 import '../assets/styles/index.css'
 import unlikeIcon from '../assets/images/icons8-love-48.png'
@@ -17,31 +17,32 @@ import ChevronLeft from '../components/ChevronLeft'
 
 function DisplayImage () {
 
-	  const { favoriteImages, pictureOfTheDay, isLoading, selectedDate } = useSelector(state => state.pictures)
+	  const { favoriteImages, pictureOfTheDay, isLoading, selectedDate, prevImage, nextImage } = useSelector(state => state.pictures)
 
     const dispatch = useDispatch()
 
     useEffect(() => {
       dispatch(fetchImage(selectedDate))
+      dispatch(fetchImagePreviews(selectedDate))
       toast.success("welcome to NASA's astronomy picture of the day")
     }, [selectedDate])
     
 
 
     const setFavoriteImage = (fav) => {
-        console.log(fav);
         const { title } = fav
         const isFavorite = !!favoriteImages.find(e => e.title === title)
         if(isFavorite) {
           return dispatch(remove_favorite_info(fav))
         }
         dispatch(set_favorite_info(fav))
-        toast.success('Image liked')
+        toast.success('Image saved')
     }
 
     const getImage = async (date) => {
        const formatDate = date.toLocaleDateString('fr-CA') 
        await dispatch(fetchImage(formatDate))
+       await dispatch(fetchImagePreviews(formatDate))
     }
 
     const renderLikeIcon = () => {
@@ -60,8 +61,6 @@ function DisplayImage () {
       }
       await getImage(date) 
     };
-
-
 
     const renderArrowPrev = (onClickHandler, hasPrev, label) => 
       hasPrev && (
@@ -82,15 +81,13 @@ function DisplayImage () {
         return <img src={item} key={key} alt=""/>;
       });
 
-
-  
   return (
       <div className="container">
        {isLoading ? (<div className="loader_container"><Loader /></div>) :
           <div>
                <div className="image_container">
                 <h1>{ pictureOfTheDay.title}</h1>
-                  <Carousel renderThumbs={() => customRenderThumb([pictureOfTheDay.url])} showIndicators={false} showStatus={false} renderArrowPrev={() => renderArrowPrev(clickHandler, true, 'prev')} renderArrowNext={() => renderArrowNext(clickHandler, true, 'next')} >
+                  <Carousel renderThumbs={() => customRenderThumb([prevImage,  nextImage])} showIndicators={false} showStatus={false} renderArrowPrev={() => renderArrowPrev(clickHandler, true, 'prev')} renderArrowNext={() => renderArrowNext(clickHandler, true, 'next')} >
                     <img src={ pictureOfTheDay.url} className="image" alt={pictureOfTheDay.title}/>
                   </Carousel >
               </div>
@@ -105,8 +102,8 @@ function DisplayImage () {
                />
                </div>
             </div>
-            <div className="image_discription">
-              { pictureOfTheDay.explanation}
+            <div className="image_description">
+              { pictureOfTheDay.explanation }
             </div>
           </div>
        }
