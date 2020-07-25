@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import DatePicker from "react-datepicker"; 
 import "react-datepicker/dist/react-datepicker.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
-import { set_favorite_info, set_date, remove_favorite_info, fetchImage } from '../redux/actions'
+import { set_favorite_info, remove_favorite_info, fetchImage } from '../redux/actions'
 import { toast } from "react-toastify";
 import '../assets/styles/index.css'
 import unlikeIcon from '../assets/images/icons8-love-48.png'
@@ -17,7 +17,7 @@ import ChevronLeft from '../components/ChevronLeft'
 
 function DisplayImage () {
 
-	  const { favoriteImages, pictureOfTheDay, isLoading, selectedDate, error } = useSelector(state => state.pictures)
+	  const { favoriteImages, pictureOfTheDay, isLoading, selectedDate } = useSelector(state => state.pictures)
 
     const dispatch = useDispatch()
 
@@ -79,7 +79,7 @@ function DisplayImage () {
 
     const customRenderThumb = (children) =>
       children.map((item, key) => {
-        return <img src={item} key={key}/>;
+        return <img src={item} key={key} alt=""/>;
       });
 
 
@@ -91,12 +91,12 @@ function DisplayImage () {
                <div className="image_container">
                 <h1>{ pictureOfTheDay.title}</h1>
                   <Carousel renderThumbs={() => customRenderThumb([pictureOfTheDay.url])} showIndicators={false} showStatus={false} renderArrowPrev={() => renderArrowPrev(clickHandler, true, 'prev')} renderArrowNext={() => renderArrowNext(clickHandler, true, 'next')} >
-                    <img src={ pictureOfTheDay.url} className="image"/>
+                    <img src={ pictureOfTheDay.url} className="image" alt={pictureOfTheDay.title}/>
                   </Carousel >
               </div>
               <div className="image__info">
                  <div className="fav" onClick={() => setFavoriteImage(pictureOfTheDay)}>
-                     <img src={renderLikeIcon()} />
+                     <img src={renderLikeIcon()} alt="like_image"/>
                  </div>
               <div className="date">
                <DatePicker
