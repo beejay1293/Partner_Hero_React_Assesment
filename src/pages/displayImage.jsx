@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from "react-toastify";
 import DatePicker from "react-datepicker"; 
@@ -13,6 +13,8 @@ import likeIcon from '../assets/images/icons8-love-48 (1).png'
 import Loader from '../components/spinner'
 import ChevronRight from '../components/ChevronRight'
 import ChevronLeft from '../components/ChevronLeft'
+import FavImages from '../components/favorites'
+import Header from '../components/header'
 
 import "react-datepicker/dist/react-datepicker.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
@@ -23,7 +25,8 @@ import '../assets/styles/index.css'
 
 function DisplayImage () {
 
-	  const { favoriteImages, pictureOfTheDay, isLoading, selectedDate, prevImage, nextImage, userId } = useSelector(state => state.pictures)
+    const { favoriteImages, pictureOfTheDay, isLoading, selectedDate, prevImage, nextImage, userId } = useSelector(state => state.pictures)
+    const [dashState, setDashState] = useState('potd') 
 
     const dispatch = useDispatch()
 
@@ -104,12 +107,15 @@ function DisplayImage () {
       });
 
   return (
+    <div className="container__home">
+      <Header dashState={dashState} setState={setDashState}/>
+      { dashState === 'potd' ?  
       <div className="container">
        {isLoading ? (<div className="loader_container"><Loader /></div>) :
-          <div>
+          <div className="potd__container">
               <div className="image_container">
                   <h1>{ pictureOfTheDay.title}</h1>
-                  <Carousel renderThumbs={() => customRenderThumb([prevImage,  nextImage])} showIndicators={false} showStatus={false} renderArrowPrev={() => renderArrowPrev(clickHandler, true, 'prev')} renderArrowNext={() => renderArrowNext(clickHandler, true, 'next')} >
+                  <Carousel renderThumbs={() => customRenderThumb([prevImage, pictureOfTheDay.url, nextImage])} showIndicators={false} showStatus={false} renderArrowPrev={() => renderArrowPrev(clickHandler, true, 'prev')} renderArrowNext={() => renderArrowNext(clickHandler, true, 'next')} >
                     <img src={ pictureOfTheDay.url} className="image" alt={pictureOfTheDay.title}/>
                   </Carousel >
               </div>
@@ -130,6 +136,9 @@ function DisplayImage () {
             </div>
           </div>
        }
+      </div> :
+      <FavImages setFavImage={setFavoriteImage}/>
+      }
       </div>
   );
 }
