@@ -57,11 +57,22 @@ function DisplayImage () {
 
     const handleFavoriteImages = (uid, fav, like=true) => {
       const op = like ? firebase.firestore.FieldValue.arrayUnion : firebase.firestore.FieldValue.arrayRemove
-            db.collection('favoriteImages')
-              .doc(uid)
-              .update({ images: op(fav) }).then(doc => {
-                console.log('success', doc);
-              }).catch(e => console.log('error', e.response))
+
+      db.collection('favoriteImages').doc(uid).get().then(doc => {
+        const userData = doc.data()
+        if(userData && userData.images){
+          db.collection('favoriteImages')
+          .doc(uid)
+          .update({ images: op(fav) }).then(doc => {
+            console.log('success', doc);
+          }).catch(e => console.log('error', e))
+        } else {
+          db.collection('favoriteImages')
+          .doc(uid).set({ images: [fav] })
+        }
+      })
+
+            
     }
 
     const getImage = async (date) => {
