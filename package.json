@@ -18,7 +18,7 @@
     "url": "https://github.com/beejay1293/Partner_Hero_React_Assesment/issues"
   },
   "devDependencies": {
-    "react-scripts": "2.1.8"
+    "react-scripts": "5.0.1"
   },
   "dependencies": {
     "acorn": "^7.3.1",
